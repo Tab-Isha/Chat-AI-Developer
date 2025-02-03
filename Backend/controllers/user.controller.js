@@ -32,7 +32,7 @@ export const loginController = async (req, res) => {
         }
         const isMatch = await bcrypt.compare(password, user.password); // Use bcryptjs for comparison
         if (!isMatch) {
-            return res.status(401).json({ errors: 'Invalid credentials' });
+            return res.status(401).json({ errors: 'Wrong password' }); // Updated message
         }
         const token = await user.generateJWT();
         delete user._doc.password;

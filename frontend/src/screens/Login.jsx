@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react'
+import { useState } from 'react';
+
 import { Link, useNavigate } from 'react-router-dom'
 import axios from '../config/axios'
 import { UserContext } from '../context/user.context'
@@ -9,7 +11,9 @@ const Login = () => {
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
 
+    const [errorMessage, setErrorMessage] = useState(''); // New state for error message
     const { setUser } = useContext(UserContext)
+
 
     const navigate = useNavigate()
 
@@ -28,7 +32,9 @@ const Login = () => {
 
             navigate('/')
         }).catch((err) => {
-            console.log(err.response.data)
+            console.log(err.response.data);
+            setErrorMessage(err.response.data.errors); // Set error message state
+
         })
     }
 
@@ -67,7 +73,11 @@ const Login = () => {
                         Login
                     </button>
                 </form>
+                {errorMessage && (
+                    <p className="text-red-500 mt-4">{errorMessage}</p> // Display error message
+                )}
                 <p className="text-gray-400 mt-4">
+
                     Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Create one</Link>
                 </p>
             </div>
